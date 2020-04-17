@@ -14,30 +14,13 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Build') {
+        stage ('Build') {
             steps {
-                sh 'mvn clean install && \
-                    mvn -N io.takari:maven:wrapper && \
-                    ./mvnw clean package && \
-                    mvn archetype:generate -DgroupId=com.vogella.build.maven.java \
-                    -DartifactId=com.vogella.build.maven.java  \
-                    -DarchetypeArtifactId=maven-archetype-quickstart \
-                    -DinteractiveMode=false'
-            }
-        }
-        stage('Compile') {
-            steps {
-                sh 'mvn compile &&  \
-                    mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                sh 'mvn install' 
             }
             post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
                 }
             }
         }
