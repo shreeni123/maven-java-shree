@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn -o clean install && \
+                sh 'mvn clean install && \
                     mvn -N io.takari:maven:wrapper && \
                     ./mvnw clean package && \
                     mvn archetype:generate -DgroupId=com.vogella.build.maven.java \
@@ -28,7 +28,7 @@ pipeline {
         stage('Compile') {
             steps {
                 sh 'mvn compile &&  \
-                    mvn clean package'
+                    mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
